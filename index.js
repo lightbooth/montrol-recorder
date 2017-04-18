@@ -100,7 +100,7 @@ function startRecording(mac) {
       return
 
     cp.exec('ffmpeg -loglevel 0 -pix_fmt yuv420p -framerate 10 -pattern_type glob -i \''
-      + path.join(images, hourFolder) + '/*.jpg\' -crf 30 -vf hflip '
+      + path.join(images, hourFolder) + '/*.jpg\' -crf 30 -vf hflip -preset ultrafast '
       + path.join(images, hourFolder) + '.mp4'
     , (err, stderr, stdout) => {
       if (err || stderr)
