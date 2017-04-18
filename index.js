@@ -12,8 +12,15 @@ const WebSocket = require('ws')
     , http = require('http')
     , basicAuth = require('basic-auth')
 
-const index = serveIndex(config.recordingDirectory, { icons: true })
-    , serve = serveStatic(config.recordingDirectory)
+const serve = serveStatic(config.recordingDirectory)
+    , index = serveIndex(config.recordingDirectory, {
+      icons: true,
+      filter: (filename, _, __, dir) => {
+        dir = path.relative(config.recordingDirectory, dir)
+        return !dir || path.relative(config.recordingDirectory, dir).split('/').length === 0
+                    || filename.endsWith('.mp4')
+      }
+    })
 
 function app(req, res) {
   const auth = basicAuth(req)
