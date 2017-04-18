@@ -10,11 +10,20 @@ const WebSocket = require('ws')
     , final = require('finalhandler')
     , https = require('https')
     , http = require('http')
+    , basicAuth = require('basic-auth')
 
 const index = serveIndex(config.recordingDirectory, { icons: true })
     , serve = serveStatic(config.recordingDirectory)
 
 function app(req, res) {
+  const auth = basicAuth(req)
+
+  if (!auth || auth.name !== 'admin' || auth.pass !== config.basicAuthPassword) {
+    res.setHeader('WWW-Authenticate', 'Basic realm="montrol"')
+    res.statusCode = 401
+    return res.end('Unauthorized')
+  }
+
   const done = final(req, res)
   serve(req, res, err => err ? done(err) : index(req, res, done))
 }

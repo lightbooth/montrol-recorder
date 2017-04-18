@@ -8,6 +8,7 @@ const config = module.exports = {
   macsToRecord        : (process.env.MACS_TO_RECORD || '').split(' '),
   montrolHost         : process.env.MONTROL_HOST,
   montrolKey          : process.env.MONTROL_KEY,
+  basicAuthPassword   : process.env.BASIC_AUTH_PASSWORD,
   sslCertPath         : process.env.SSL_CERTIFICATE_PATH,
   sslKeyPath          : process.env.SSL_PRIVATE_KEY_PATH
 }
