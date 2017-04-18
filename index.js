@@ -8,15 +8,20 @@ const WebSocket = require('ws')
     , serveIndex = require('serve-index')
     , serveStatic = require('serve-static')
     , final = require('finalhandler')
+    , https = require('https')
     , http = require('http')
 
 const index = serveIndex(config.recordingDirectory, { icons: true })
     , serve = serveStatic(config.recordingDirectory)
 
-const server = http.createServer((req, res) => {
+function app(req, res) {
   const done = final(req, res)
   serve(req, res, err => err ? done(err) : index(req, res, done))
-})
+}
+
+const server = config.https
+    ? https.createServer(config.https, app)
+    : http.createServer(app)
 
 server.listen(config.port)
 server.on('listening', () => log('Listening on port', config.port))

@@ -1,9 +1,18 @@
 /* eslint no-process-env: 0 */
 
-module.exports = {
+const fs = require('fs')
+
+const config = module.exports = {
   port                : process.env.PORT,
   recordingDirectory  : process.env.RECORDING_DIRECTORY || process.cwd(),
   macsToRecord        : (process.env.MACS_TO_RECORD || '').split(' '),
   montrolHost         : process.env.MONTROL_HOST,
-  montrolKey          : process.env.MONTROL_KEY
+  montrolKey          : process.env.MONTROL_KEY,
+  sslCertPath         : process.env.SSL_CERTIFICATE_PATH,
+  sslKeyPath          : process.env.SSL_PRIVATE_KEY_PATH
 }
+
+config.https = config.sslKeyPath && config.sslCertPath ? {
+  key: fs.readFileSync(config.sslKeyPath),
+  cert: fs.readFileSync(config.sslCertPath)
+} : null
