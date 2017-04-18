@@ -8,6 +8,7 @@
   },
   "author": "Rasmus Porsager <rasmus@porsager.com>",
   "dependencies": {
+    "basic-auth": "1.1.0",
     "bufferutil": "3.0.0",
     "finalhandler": "1.0.1",
     "fs-extra": "2.1.2",
